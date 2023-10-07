@@ -22,9 +22,9 @@ export const FormBuilder = () => {
     }
 
     function removeField(index) {
-        const updatedFields = { ...fields }
+        const updatedFields = [ ...fields ]
         updatedFields.splice(index, 1)
-        setInterval(updatedFields)
+        setFields(updatedFields)
     }
 
   return (
@@ -47,6 +47,17 @@ export const FormBuilder = () => {
                 <option value="radio">Radio</option>
             </select>
 
+            {
+                newField.type === 'dropdown' && (
+                    <div>
+                        <label htmlFor="dropdown">Dropdown option (comma-sep):  </label>
+                        <input type='text' value={newField.options.join(',')} 
+                            onChange={e => setNewField({ ...newField, options: e.target.value.split(',')})} 
+                        />
+                    </div>
+                )
+            }
+
             <button onClick={addField}>Add button</button>
 
         </div>
@@ -55,7 +66,7 @@ export const FormBuilder = () => {
                 fields && fields.map((field, index) =>(
                     <div key={index}>
                         <FormField { ...field } />
-                        <button onClick={() => removeField(index)}></button>
+                        <button onClick={() => removeField(index)}>Remove</button>
                     </div>
                 ))
             }
